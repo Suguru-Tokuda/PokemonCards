@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct PokedexApp: App {
+    init() {
+        UIApplication.shared.setUpTabBarAppearance()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(vm: ContentViewModel())
         }
     }
 }
