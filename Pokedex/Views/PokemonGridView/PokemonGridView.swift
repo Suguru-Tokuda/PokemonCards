@@ -21,7 +21,7 @@ struct PokemonGridView: View {
             }
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(vm.pokemons ?? []) { pokemon in
+                    ForEach(vm.displayedPokemons) { pokemon in
                         NavigationLink {
                             PokemonDetailsView(pokemon: pokemon)
                         } label: {
@@ -31,11 +31,19 @@ struct PokemonGridView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            Task {
-                await vm.getPokemons()
+            .refreshable {
+                Task {
+                    await vm.getPokemons()
+                }
             }
+        }
+        .task {
+            print(".task")
+            await vm.getPokemons()
+        }
+        .searchable(text: $vm.searchText)
+        .onAppear {
+            print("onAppear")
         }
     }
 }

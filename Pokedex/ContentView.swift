@@ -22,6 +22,7 @@ struct ContentView: View {
     @AppStorage("tabBarColor") var tabBarColor: Color = .orange
     // MARK: @State
     @State var selectedRoute: ContentRoute? = .list
+    @State var selectedTabBarColor: Color = .orange
 
     var body: some View {
         Group {
@@ -38,27 +39,39 @@ struct ContentView: View {
 extension ContentView {
     @ViewBuilder
     func navigationStack() -> some View {
-        NavigationStack {
-            TabView {
+        TabView {
+            NavigationStack {
                 PokemonListView()
-                    .tabItem {
-                        tabItemLabel("List", "list.dash")
-                    }
-                PokemonGridView(vm: PokemonListViewModel())
-                    .tabItem {
-                        tabItemLabel("Grid", "square.grid.3x3")
-                    }
-                SettingView()
-                    .tabItem {
-                        tabItemLabel("Settings", "gear")
-                    }
             }
+                .tabItem {
+                    tabItemLabel("List", "list.dash")
+                }
+
+            NavigationStack {
+                PokemonGridView(vm: PokemonListViewModel())
+
+            }
+                .tabItem {
+                    tabItemLabel("Grid", "square.grid.3x3")
+                }
+
+            NavigationStack {
+                SettingView()
+            }
+                .tabItem {
+                    tabItemLabel("Settings", "gear")
+                }
+        }
+        .onAppear {
+            UIApplication.shared.setUpTabBarAppearance()
+            selectedTabBarColor = tabBarColor
         }
         .onChange(of: tabBarColor) { oldValue, newValue in
             UIApplication.shared.setUpTabBarAppearance()
+            selectedTabBarColor = newValue
         }
         .toolbar(.visible, for: .tabBar)
-        .toolbarBackground(tabBarColor, for: .tabBar)
+        .toolbarBackground(selectedTabBarColor, for: .tabBar)
     }
     
     @ViewBuilder
