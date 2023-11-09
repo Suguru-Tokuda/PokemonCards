@@ -12,22 +12,20 @@ struct PokemonListView: View {
     
     var body: some View {
         ZStack {
+            Color.green.opacity(0.5)
+                .ignoresSafeArea()
             if vm.isLoading {
                 ProgressView()
             }
             List {
                 ForEach(vm.pokemons ?? []) { pokemon in
-                    ZStack {
-                        PokemonListCellView(pokemon: pokemon)
-                        NavigationLink {
-                            PokemonDetailsView(pokemon: pokemon)
-                        } label: {
-                            EmptyView()
-                        }
-                        .opacity(0)
-                    }
-                    .listRowInsets(EdgeInsets(top: 1, leading: 0, bottom: 1, trailing: 0))
-                    .buttonStyle(PlainButtonStyle())
+                    PokemonListCellView(pokemon: pokemon)
+                        .background(
+                            NavigationLink("", destination: PokemonDetailsView(pokemon: pokemon))
+                                .opacity(0)
+                        )
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets(top: 1, leading: 0, bottom: 1, trailing: 0))
                 }
             }
             .listStyle(.plain)
@@ -36,8 +34,9 @@ struct PokemonListView: View {
                     await vm.getPokemons()
                 }
             }
+            .padding(.horizontal, 5)
         }
-        .padding(.horizontal, 5)
+        
     }
 }
 

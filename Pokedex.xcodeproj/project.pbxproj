@@ -83,12 +83,12 @@
 		BB4415722AFC0FB200AA675E /* Pokedex */ = {
 			isa = PBXGroup;
 			children = (
-				BB4415A62AFC5FC500AA675E /* Extensions */,
-				BB4415A32AFC5C3500AA675E /* Modifiers */,
 				BB4415752AFC0FB200AA675E /* ContentView.swift */,
 				BB4415732AFC0FB200AA675E /* PokedexApp.swift */,
 				BB4415772AFC0FB300AA675E /* Assets.xcassets */,
+				BB4415A62AFC5FC500AA675E /* Extensions */,
 				BB4415842AFC0FD100AA675E /* Models */,
+				BB4415A32AFC5C3500AA675E /* Modifiers */,
 				BB4415792AFC0FB300AA675E /* Preview Content */,
 				BB4415822AFC0FC000AA675E /* Utilities */,
 				BB4415832AFC0FCC00AA675E /* ViewModels */,
@@ -146,8 +146,8 @@
 		BB4415932AFC266500AA675E /* PokemonListView */ = {
 			isa = PBXGroup;
 			children = (
-				BB4415862AFC102F00AA675E /* PokemonListView.swift */,
 				BB4415892AFC104200AA675E /* PokemonListCellView.swift */,
+				BB4415862AFC102F00AA675E /* PokemonListView.swift */,
 			);
 			path = PokemonListView;
 			sourceTree = "<group>";

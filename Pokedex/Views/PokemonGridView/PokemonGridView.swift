@@ -9,10 +9,13 @@ import SwiftUI
 
 struct PokemonGridView: View {
     @ObservedObject var vm: PokemonListViewModel
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     var columns = Array(repeating: GridItem(), count: 3)
     
     var body: some View {
         ZStack {
+            Color.blue.opacity(0.5)
+                .ignoresSafeArea()
             if vm.isLoading {
                 ProgressView()
             }
@@ -23,7 +26,7 @@ struct PokemonGridView: View {
                             PokemonDetailsView(pokemon: pokemon)
                         } label: {
                             PokemonGridCellView(pokemon: pokemon)
-                                .frame(height: 180)
+                                .frame(height: horizontalSizeClass == .compact ? 180 : 400)
                         }
                     }
                 }

@@ -9,5 +9,5 @@ import Foundation
 import SwiftUI
 
 class BackgroundColorClass: ObservableObject {
-    let color: Color = .red
+    let color: Color = .blue
 }

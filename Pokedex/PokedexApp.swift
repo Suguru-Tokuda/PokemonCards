@@ -11,6 +11,7 @@ import SwiftUI
 struct PokedexApp: App {
     init() {
         UIApplication.shared.setUpTabBarAppearance()
+        UIApplication.shared.setUpTAbleViewAppearance()
     }
     
     var body: some Scene {

@@ -14,7 +14,7 @@ struct SettingView: View {
     var body: some View {
         ZStack {
             Color.cyan.opacity(0.4)
-                .ignoresSafeArea(edges: .top)
+                .ignoresSafeArea()
             VStack {
                 Text("Settings")
                     .font(.headline)
@@ -32,6 +32,7 @@ struct SettingView: View {
         }
         .onAppear {
             selectedColor = tabBarColor
+            print(tabBarColor)
         }
     }
 }

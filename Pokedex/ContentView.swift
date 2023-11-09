@@ -14,9 +14,13 @@ enum ContentRoute: String, CaseIterable {
 }
 
 struct ContentView: View {
+    // MARK: @Environment
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    // MARK: @ObservedObject
     @ObservedObject var vm: ContentViewModel
+    // MARK: @AppStorage
     @AppStorage("tabBarColor") var tabBarColor: Color = .orange
+    // MARK: @State
     @State var selectedRoute: ContentRoute? = .list
 
     var body: some View {
@@ -28,7 +32,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(BackgroundColorClass())
-
     }
 }
 
@@ -37,28 +40,25 @@ extension ContentView {
     func navigationStack() -> some View {
         NavigationStack {
             TabView {
-                Group {
-                    PokemonListView()
-                        .tabItem {
-                            Label("List", systemImage: "list.dash")
-                        }
-                    PokemonGridView(vm: PokemonListViewModel())
-                        .tabItem {
-                            Label("Grid", systemImage: "square.grid.3x3")
-                        }
-                    SettingView()
-                        .tabItem {
-                            Label("Settings", systemImage: "gear")
-                        }
-                }
-                .toolbarBackground(tabBarColor, for: .tabBar)
-
-            }
-            .onAppear {
-                UIApplication.shared.setUpTabBarAppearance()
-                vm.updateView()
+                PokemonListView()
+                    .tabItem {
+                        tabItemLabel("List", "list.dash")
+                    }
+                PokemonGridView(vm: PokemonListViewModel())
+                    .tabItem {
+                        tabItemLabel("Grid", "square.grid.3x3")
+                    }
+                SettingView()
+                    .tabItem {
+                        tabItemLabel("Settings", "gear")
+                    }
             }
         }
+        .onChange(of: tabBarColor) { oldValue, newValue in
+            UIApplication.shared.setUpTabBarAppearance()
+        }
+        .toolbar(.visible, for: .tabBar)
+        .toolbarBackground(tabBarColor, for: .tabBar)
     }
     
     @ViewBuilder
@@ -84,6 +84,16 @@ extension ContentView {
             default:
                 PokemonListView()
             }
+        }
+    }
+}
+
+extension ContentView {
+    @ViewBuilder
+    func tabItemLabel(_ label: String, _ systemImageName: String) -> some View {
+        VStack {
+            Image(systemName: systemImageName)
+            Text(label)
         }
     }
 }

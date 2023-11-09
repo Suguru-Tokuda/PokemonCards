@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: @ObservableObject
 class ContentViewModel: ObservableObject {
     func updateView() {
         self.objectWillChange.send()
