@@ -17,8 +17,7 @@ struct ContentView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @ObservedObject var vm: ContentViewModel
     @AppStorage("tabBarColor") var tabBarColor: Color = .orange
-    @State var selectedRoute: String? = "List"
-    private let routes = ["List", "Grid", "Settings"]
+    @State var selectedRoute: ContentRoute? = .list
 
     var body: some View {
         Group {
@@ -65,20 +64,20 @@ extension ContentView {
     @ViewBuilder
     func navigationSplitView() -> some View {
         NavigationSplitView {
-            List(routes, id: \.self, selection: $selectedRoute) { route in
-                Text(route)
+            List(ContentRoute.allCases, id: \.self, selection: $selectedRoute) { route in
+                Text(route.rawValue)
             }
         } detail: {
             switch selectedRoute {
-            case ContentRoute.list.rawValue:
+            case .list:
                 NavigationStack {
                     PokemonListView()
                 }
-            case ContentRoute.grid.rawValue:
+            case .grid:
                 NavigationStack {
                     PokemonGridView(vm: PokemonListViewModel())
                 }
-            case ContentRoute.settings.rawValue:
+            case .settings:
                 NavigationStack {
                     SettingView()
                 }
