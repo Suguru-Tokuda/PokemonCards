@@ -24,7 +24,7 @@ struct Pokemon: Codable, Identifiable {
     let resistances: [Resistance]?
     let retreatCost: [String]?
     let convertedRetreatCost: Int?
-    let datumSet: Set?
+    let datumSet: PokemonSet?
     let number, artist: String?
     let rarity: String?
     let flavorText: String?
@@ -62,7 +62,7 @@ struct Cardmarket: Codable {
     let prices: [String: Double]
 }
 
-struct Set: Codable {
+struct PokemonSet: Codable {
     let id, name, series: String
     let printedTotal, total: Int
     let legalities: Legalities
