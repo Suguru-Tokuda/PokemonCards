@@ -18,7 +18,7 @@ struct PokemonListView: View {
                 ProgressView()
             }
             List {
-                ForEach(vm.pokemons ?? []) { pokemon in
+                ForEach(vm.displayedPokemons) { pokemon in
                     PokemonListCellView(pokemon: pokemon)
                         .background(
                             NavigationLink("", destination: PokemonDetailsView(pokemon: pokemon))
@@ -26,17 +26,38 @@ struct PokemonListView: View {
                         )
                         .listRowBackground(Color.clear)
                         .listRowInsets(EdgeInsets(top: 1, leading: 0, bottom: 1, trailing: 0))
+                        .listRowSeparator(.hidden)
                 }
             }
-            .listStyle(.plain)
-            .onAppear {
+            .refreshable {
                 Task {
                     await vm.getPokemons()
                 }
             }
+            .listStyle(.plain)
+            .searchable(text: $vm.searchText)
+            .task {
+                await vm.getPokemons()
+            }
             .padding(.horizontal, 5)
+            .alert("Something went wrong", isPresented: $vm.isAlertPresented) {
+                Button {
+                    Task {
+                        await vm.getPokemons()
+                    }
+                } label: {
+                    Text("Try again.")
+                }
+                
+                Button {
+                    vm.supressAlert()
+                } label: {
+                    Text("Close")
+                }
+            } message: {
+                Text(vm.customError?.errorDescription ?? "")
+            }
         }
-        
     }
 }
 
