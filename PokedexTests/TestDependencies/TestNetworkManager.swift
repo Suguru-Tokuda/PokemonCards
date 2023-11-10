@@ -1,22 +1,24 @@
 //
-//  NetworkManager.swift
-//  Pokedex
+//  TestNetworkManager.swift
+//  PokedexTests
 //
-//  Created by Suguru Tokuda on 11/8/23.
+//  Created by Suguru Tokuda on 11/10/23.
 //
 
 import Foundation
+@testable import Pokedex
 
-protocol Networking {
-    func getDataFromNetworkLayer<T: Decodable>(url: URL, type: T.Type) async throws -> T
-}
-
-class NetworkManager: Networking {
+class TestNetworkManager: Networking {
     func getDataFromNetworkLayer<T>(url: URL, type: T.Type) async throws -> T where T : Decodable {
+        let bundle = Bundle(for: TestNetworkManager.self)
+        let url = bundle.url(forResource: url.absoluteString, withExtension: "json")
+        
+        guard let url = url else { throw NetworkError.badUrl }
+        
         var rawData: Data
-
+        
         do {
-            (rawData, _) = try await URLSession.shared.data(from: url)
+            rawData = try Data(contentsOf: url)
         } catch {
             throw NetworkError.noData
         }

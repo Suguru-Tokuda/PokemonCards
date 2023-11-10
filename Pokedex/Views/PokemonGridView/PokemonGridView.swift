@@ -42,8 +42,22 @@ struct PokemonGridView: View {
             await vm.getPokemons()
         }
         .searchable(text: $vm.searchText)
-        .onAppear {
-            print("onAppear")
+        .alert("Something went wrong", isPresented: $vm.isAlertPresented) {
+            Button {
+                Task {
+                    await vm.getPokemons()
+                }
+            } label: {
+                Text("Try again.")
+            }
+            
+            Button {
+                vm.supressAlert()
+            } label: {
+                Text("Close")
+            }
+        } message: {
+            Text(vm.customError?.errorDescription ?? "")
         }
     }
 }

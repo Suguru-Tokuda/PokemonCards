@@ -40,8 +40,24 @@ struct PokemonListView: View {
                 await vm.getPokemons()
             }
             .padding(.horizontal, 5)
+            .alert("Something went wrong", isPresented: $vm.isAlertPresented) {
+                Button {
+                    Task {
+                        await vm.getPokemons()
+                    }
+                } label: {
+                    Text("Try again.")
+                }
+                
+                Button {
+                    vm.supressAlert()
+                } label: {
+                    Text("Close")
+                }
+            } message: {
+                Text(vm.customError?.errorDescription ?? "")
+            }
         }
-        
     }
 }
 
